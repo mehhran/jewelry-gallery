@@ -1,5 +1,10 @@
 from django.db import models
 
+
+def my_default():
+    return {'': ''}
+
+
 class Product(models.Model):
     METAL_TYPE_CHOICES = [
         ('gold', 'Gold'),
@@ -10,7 +15,7 @@ class Product(models.Model):
     pid = models.IntegerField(verbose_name="product id", help_text="Enter the Barcode")
     name = models.CharField(max_length=100)
     
-    metal_type = models.CharField(max_length=100, choices=METAL_TYPE_CHOICES)
+    metal_type = models.CharField(max_length=10, choices=METAL_TYPE_CHOICES)
     metal_fineness = models.IntegerField(help_text="0 < x =< 1000")
     
     weight_total = models.DecimalField(max_digits=7, decimal_places=3,
@@ -25,7 +30,9 @@ class Product(models.Model):
     costs_total = models.DecimalField(max_digits=19, decimal_places=2,
                                         help_text="Total costs (Stone setting, Plating, and Losses)")
     
-    group = models.CharField(max_length=100)
+    group = models.CharField(max_length=100, default="Other")
+
+    data = models.JSONField(verbose_name="Extra Data", default=my_default)
 
 
 class Stone(models.Model):
@@ -46,8 +53,55 @@ class Stone(models.Model):
     cut = models.CharField(max_length=100, blank=True)
     clarity = models.CharField(max_length=100, blank=True)
 
+    data = models.JSONField(verbose_name="Extra Data", default=my_default)
+
+
 class Price(models.Model):
-    pass
+    '''
+    Used for storing prices of raw metals
+    '''
+    SORT_CHOICES = [
+        ('gold', 'Gold'),
+        ('platinum', 'Platinum'),
+        ('silver', 'Silver'),
+    ]
+    BASIS_CHOICES = [
+        ('g', 'One Gram'),
+        ('oz', 'One Ounce'),
+        ('kg', 'One Kilogram')
+    ]
+
+    sort = models.CharField(max_length=10, choices=SORT_CHOICES)
+
+    datetime = models.DateTimeField()
+    amount = models.DecimalField(max_digits=19, decimal_places=2,
+                                help_text="Enter the amount in USD")
+    
+    basis = models.CharField(max_length=10, choices=BASIS_CHOICES)
+
+    data = models.JSONField(verbose_name="Extra Data", default=my_default)
+
+    def __str__(self):
+        return (str(self.basis) + ' ' +
+                str(self.sort) + ': ' +
+                str(self.amount) + ' ' +
+                str("$") + ' - ' +
+                str(self.datetime.strftime('%m-%d-%Y %H:%M:%S')))
+
 
 class ProfitGain(models.Model):
-    pass
+    '''
+    To determine the desired profit gain percentage for a group of products
+    '''
+    product_group = models.CharField(max_length=100)
+
+    amount = models.IntegerField(help_text="E.g.: The amount of 15 will add 15 percent of the product's prime cost")
+
+    datetime = models.DateTimeField()
+
+    class Meta:
+        verbose_name = "Profit Gain Percentage"
+        
+    def __str__(self):
+        return str("The amount of %s percent for the '%s'group - %s"
+        % (self.amount, self.product_group, self.datetime.strftime('%m-%d-%Y %H:%M:%S')))
