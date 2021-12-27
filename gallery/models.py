@@ -22,6 +22,8 @@ class Product(models.Model):
     
     base_craft_fee = models.DecimalField(max_digits=19, decimal_places=2,
                                         help_text="Total craft fee for base")
+    costs_total = models.DecimalField(max_digits=19, decimal_places=2,
+                                        help_text="Total costs (Stone setting, Plating, and Losses)")
     
     group = models.CharField(max_length=100)
 
