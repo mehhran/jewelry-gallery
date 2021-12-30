@@ -2,6 +2,10 @@ from django.db import models
 
 
 def my_default():
+    '''
+    I'm using this default value because the empty dict {} for JSONField
+    will raise Error in this version of Django.
+    '''
     return {'': ''}
 
 
