@@ -23,7 +23,27 @@
             height:auto;
             }
             #content {
-            min-height:400px;
+                    min-height: 200px;
+            }
+            @media (min-height: 250px) {
+                #content {
+                    min-height: 60vh;
+                }
+            }
+            @media (min-height: 400px) {
+                #content {
+                    min-height: 65vh;
+                }
+            }
+            @media (min-height: 500px) {
+                #content {
+                    min-height: 75vh;
+                }
+            }
+            @media (min-height: 700px) {
+                #content {
+                    min-height: 80vh;
+                }
             }
             i.fas:hover {
             text-shadow: 0 0 15px #8e929b;
@@ -59,113 +79,74 @@
 
     </head>
     <body>
-        <!-- Header Start -->
-        <div class="container-fluid border-bottom pr-md-5 pl-md-5 bg-light">
-            <!---->
-            <div class="row" id="row 1">
-                <div class="d-flex col-3 p-0 pt-3">
-                    <a class="navbar-brand" href="{% url 'gallery_home' %}">
-                        <img
-                          class="img-fluid"
-                          src="{% static 'gallery/logo.png' %}"
-                          width="90px"
-                          alt="logo"
-                        />
-                      </a>
-                </div>
-                <div class="col-9 pr-1 pt-3 pl-4" id="form cell">
-                    <div class="row float-right" id="nested row">
-                        <form class="form-inline"
+        <!-- NavBar Start -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="{% url 'gallery_home' %}">
+                <img
+                    class="img-fluid"
+                    src="{% static 'gallery/logo.png' %}"
+                    width="90px"
+                    alt="logo"
+                />
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="fas fa-bars" style="font-size: 25px"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a
+                        class="nav-link font-weight-bold"
+                        href="{% url 'price_entry' %}"
+                        >Price Entry</a>
+                    </li>
+                    <li class="nav-item">
+                        <a
+                        class="nav-link font-weight-bold"
+                        href="{% url 'add_product' %}"
+                        >Add Product</a>
+                    </li>
+                    <li class="nav-item">
+                        <a
+                        class="nav-link font-weight-bold"
+                        href="{% url 'product_list' %}"
+                        >Product List</a>
+                    </li>                    
+                    <li class="nav-item">
+                        <a
+                        class="nav-link font-weight-bold"
+                        href="{% url 'product_gallery' %}"
+                        >Product Gallery</a>
+                    </li>
+                </ul>
+                <form class="form-inline my-2 my-lg-0"
                             action="{% url 'detail_get' %}"
                             method="get">
-                            <div class="col-7 p-0 pr-1">
-                                <input
-                                  class="form-control col"
-                                  type="search"
-                                  name="pid"
-                                  placeholder="Barcode"
-                                  required
-                                />
-                            </div>
-                            <div class="col-2 p-0 pl-2">
-                                <button class="btn btn-light p-0" type="submit">
-                                  <span style="font-size: 25px"
-                                    ><i class="fas fa-search"></i
-                                  ></span>
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
+                    <input
+                        class="form-control mr-sm-2"
+                        type="search"
+                        name="pid"
+                        placeholder="Barcode"
+                        required
+                    />
+                    <button class="btn btn-light my-2 my-sm-0" type="submit">
+                        <span style="font-size: 25px"
+                        ><i class="fas fa-search"></i
+                        ></span>
+                    </button>
+                </form>
             </div>
-            <!---->
-            <!---->
-            <div class="row d-flex" id="row 2">
-                <div class="col-2 d-flex">
-                    <a class="pr-2" data-toggle="collapse" data-target="#navbarNav">
-                      <i class="fas fa-bars" style="font-size: 25px"></i>
-                    </a>
-                </div>
-
-            </div>
-            <!---->
-            <!---->
-            <div class="row" id="row 3">
-                <div class="collapse navbar-collapse pb-2" id="navbarNav">
-                    <hr />
-                    <ul class="navbar-nav mx-auto">
-                        <li class="nav-item">
-                            <a
-                            class="nav-link text-dark font-weight-bold"
-                            href="{% url 'price_entry' %}"
-                            >Price Entry</a>
-                        </li>
-                        <li class="nav-item">
-                            <a
-                            class="nav-link text-dark font-weight-bold"
-                            href="{% url 'product_list' %}"
-                            >Product List</a>
-                        </li>
-                        <li class="nav-item">
-                            <a
-                            class="nav-link text-dark font-weight-bold"
-                            href="{% url 'add_product' %}"
-                            >Add Product</a>
-                        </li>
-                        <li class="nav-item">
-                            <a
-                            class="nav-link text-dark font-weight-bold"
-                            href="{% url 'product_gallery' %}"
-                            >Product Gallery</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <!---->
-        </div>
-        <!-- Header End -->
+        </nav>
+        <!-- NavBar End -->
 
         <!-- Content Space Start -->
         <div class="container pt-1 mb-2" id="content">
-            <div class="row sticky-top mb-4">
-              <div class="col" align="left">
-                <span onclick="goBack()" style="font-size: 20px">
-                    <i class="fas fa-arrow-left"></i>
-                </span>
-                </div>
-              <div class="col" align="center">
-                <span onclick="refresh()" style="font-size: 20px">
-                    <i class="fas fa-sync"></i>
-                </span>
-              </div>
-              <div class="col"></div>
-            </div>
             {% block content%} {% endblock %}
         </div>
         <!-- Content Space End -->
         
         <!-- Footer Start -->
-        <div class="footer border-top text-center" id="footer">
+        <div class="footer border-top text-center pt-3" id="footer">
             <span style="font-size: 20px"><i class="far fa-copyright"></i></span>
         </div>
         <!-- Footer End -->
