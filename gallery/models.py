@@ -1,5 +1,7 @@
 from django.db import models
 
+from gallery.managers import PriceManager
+
 
 def my_default():
     '''
@@ -84,6 +86,8 @@ class Price(models.Model):
     basis = models.CharField(max_length=10, choices=BASIS_CHOICES)
 
     data = models.JSONField(verbose_name="Extra Data", default=my_default)
+
+    objects = PriceManager()
 
     def __str__(self):
         return (str(self.basis) + ' ' +

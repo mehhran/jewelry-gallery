@@ -2,10 +2,17 @@ from django.shortcuts import render
 
 from django.views import View
 
+from gallery.models import Price
+
 class Home(View):
     def get(self, request):
-        # stuff
-        return render(request, 'gallery/home.html', {})
+        try:
+            price_list = [Price.objects.get_latest(sort) for sort in ['gold', 'platinum', 'silver']]
+            context = {"price_list": price_list}
+        except:
+            context = {"price_list": None}
+        
+        return render(request, 'gallery/home.html', context)
 
 
 class PriceEntry(View):

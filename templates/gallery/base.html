@@ -22,11 +22,18 @@
         ></script>
 
         <style>
-            #header {
-            height:auto;
-            }
             #content {
                     min-height: 200px;
+            }
+            @media (min-width: 500px) {
+                #content {
+                    width: 85%;
+                }
+            }
+            @media (min-width: 850px) {
+                #content {
+                    width: 75%;
+                }
             }
             @media (min-height: 250px) {
                 #content {
@@ -48,12 +55,7 @@
                     min-height: 80vh;
                 }
             }
-            i.fas:hover {
-            text-shadow: 0 0 15px #8e929b;
-            }
-            .hidden {
-            display: none;
-            }
+            
             @media (min-width: 250px) {
             .card-columns {
             column-count: 2;
@@ -143,7 +145,7 @@
         <!-- NavBar End -->
 
         <!-- Content Space Start -->
-        <div class="container-fluid p-3 mb-2" id="content">
+        <div class="container-fluid p-3 mb-2 text-center" id="content">
             {% block content%} {% endblock %}
         </div>
         <!-- Content Space End -->
