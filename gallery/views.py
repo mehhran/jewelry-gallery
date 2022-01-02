@@ -2,7 +2,7 @@ from django.shortcuts import render
 
 from django.views import View
 
-from gallery.models import Price
+from gallery.models import Price, Product
 
 class Home(View):
     def get(self, request):
@@ -30,6 +30,9 @@ class AddProduct(View):
 class ProductDetail(View):
     def get(self, request):
         # stuff
+        p = Product.objects.filter(pid=9)[0]
+        p.get_price()
+
         return render(request, 'gallery/product_detail.html', {})
 
 
