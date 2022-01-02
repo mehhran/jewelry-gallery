@@ -129,7 +129,7 @@ class Stone(models.Model):
     data = models.JSONField(verbose_name="Extra Data", default=my_default)
 
     def __str__(self):
-        return self.name + str(" (count: %d)" % self.count)
+        return self.name + str(" (Count: %d)" % self.count)
 
 
 class Price(models.Model):
@@ -160,11 +160,10 @@ class Price(models.Model):
     objects = PriceManager()
 
     def __str__(self):
-        return (str(self.basis) + ' ' +
-                str(self.sort) + ': ' +
-                str(self.amount) + ' ' +
-                str("$") + ' - ' +
-                str(self.datetime.strftime('%m-%d-%Y %H:%M:%S')))
+        return (self.sort + str(" (1 %s)" % self.basis)
+                + ': ' 
+                + '$' + str(self.amount)
+                + ' - ' + str(self.datetime))
 
 
 class ProfitGain(models.Model):
@@ -183,5 +182,5 @@ class ProfitGain(models.Model):
         verbose_name = "Profit Gain Percentage"
         
     def __str__(self):
-        return str("The amount of %d percent for the group '%s'"
+        return str("%d percent for the group '%s'"
                     % (self.amount, self.product_group))
