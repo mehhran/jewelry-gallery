@@ -2,8 +2,13 @@
 <html>
     <head>
         <meta charset="utf-8" />
+
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
         <title>Jewelry Gallery - {% block title %}{% endblock %}</title>
         
+        {% load static %}
+
         <link
             rel="stylesheet"
             href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
@@ -17,12 +22,40 @@
         ></script>
 
         <style>
-            i.fas:hover {
-            text-shadow: 0 0 15px #8e929b;
+            #content {
+                    min-height: 200px;
             }
-            .hidden {
-            display: none;
+            @media (min-width: 500px) {
+                #content {
+                    width: 85%;
+                }
             }
+            @media (min-width: 850px) {
+                #content {
+                    width: 75%;
+                }
+            }
+            @media (min-height: 250px) {
+                #content {
+                    min-height: 60vh;
+                }
+            }
+            @media (min-height: 400px) {
+                #content {
+                    min-height: 65vh;
+                }
+            }
+            @media (min-height: 500px) {
+                #content {
+                    min-height: 75vh;
+                }
+            }
+            @media (min-height: 700px) {
+                #content {
+                    min-height: 80vh;
+                }
+            }
+            
             @media (min-width: 250px) {
             .card-columns {
             column-count: 2;
@@ -49,22 +82,95 @@
             }
         </style>
 
-        {% load static %}
     </head>
-    <body>
-        <div class="container-fluid border-bottom pr-md-5 pl-md-5 bg-light">
-            <div class="row" id="row 1">
-                <div class="d-flex col-3 p-0 pt-3">
-                    <a class="navbar-brand" href="{% url 'gallery_home' %}">
-                        <img
-                          class="img-fluid"
-                          src="{% static 'gallery/logo.png' %}"
-                          width="90px"
-                          alt="logo"
-                        />
-                      </a>
-                </div>
+    <body>        
+        <!-- NavBar Start -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="{% url 'gallery_home' %}">
+                <img
+                    class="img-fluid"
+                    src="{% static 'gallery/logo.png' %}"
+                    width="90px"
+                    alt="logo"
+                />
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="fas fa-bars" style="font-size: 25px"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a
+                        class="nav-link font-weight-bold"
+                        href="{% url 'price_entry' %}"
+                        >Price Entry</a>
+                    </li>
+                    <li class="nav-item">
+                        <a
+                        class="nav-link font-weight-bold"
+                        href="{% url 'add_product' %}"
+                        >Add Product</a>
+                    </li>
+                    <li class="nav-item">
+                        <a
+                        class="nav-link font-weight-bold"
+                        href="{% url 'product_list' %}"
+                        >Product List</a>
+                    </li>                    
+                    <li class="nav-item">
+                        <a
+                        class="nav-link font-weight-bold"
+                        href="{% url 'product_gallery' %}"
+                        >Product Gallery</a>
+                    </li>
+                </ul>
+                <form class="form-inline my-2 my-lg-0"
+                            action="{% url 'detail_get' %}"
+                            method="get">
+                    <input
+                        class="form-control mr-sm-2"
+                        type="search"
+                        name="pid"
+                        placeholder="Barcode"
+                        required
+                    />
+                    <button class="btn btn-light my-2 my-sm-0" type="submit">
+                        <span style="font-size: 25px"
+                        ><i class="fas fa-search"></i
+                        ></span>
+                    </button>
+                </form>
             </div>
+        </nav>
+        <!-- NavBar End -->
+
+        <!-- Content Space Start -->
+        <div class="container-fluid p-3 mb-2 text-center" id="content">
+            {% block content%} {% endblock %}
         </div>
+        <!-- Content Space End -->
+        
+        <!-- Footer Start -->
+        <div class="footer border-top text-center pt-3" id="footer">
+            <span style="font-size: 20px"><i class="far fa-copyright"></i></span>
+        </div>
+        <!-- Footer End -->
+        
+        <!-- Scripts -->
+        <script
+        src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"
+        ></script>
+        <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"
+        ></script>
+        <script
+        src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"
+        ></script>
     </body>
 </html>

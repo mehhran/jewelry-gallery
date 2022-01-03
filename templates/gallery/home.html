@@ -1,2 +1,12 @@
 {% extends 'gallery/base.html' %}
 {% block title %} Home {%endblock%}
+{% block content%}
+{% load static %}
+    <div class="text-center">
+    <img
+        class="img-fluid"
+        src="{% static 'gallery/Nothing.jpg' %}"
+        alt="Responsive image"
+    />
+    </div>
+{%endblock%}

@@ -130,3 +130,7 @@ dmypy.json
 
 # for the secrets
 secrets.py
+
+.vscode
+
+product-photos
