@@ -6,19 +6,20 @@ from gallery.models import Price, Product
 
 class Home(View):
     def get(self, request):
-        try:
-            price_list = [Price.objects.get_latest(sort) for sort in ['gold', 'platinum', 'silver']]
-            context = {"price_list": price_list}
-        except:
-            context = {"price_list": None}
-        
-        return render(request, 'gallery/home.html', context)
+        # stuff        
+        return render(request, 'gallery/home.html', {})
 
 
 class PriceEntry(View):
     def get(self, request):
-        # stuff
-        return render(request, 'gallery/price_entry.html', {})
+        try:
+            price_list = [Price.objects.get_latest(sort) for sort in ['gold', 'platinum', 'silver']]
+            for p in price_list:
+                p.sort = p.sort.capitalize()
+            context = {"price_list": price_list}
+        except:
+            context = {"price_list": None}
+        return render(request, 'gallery/price_entry.html', context)
 
 
 class AddProduct(View):
@@ -29,11 +30,28 @@ class AddProduct(View):
 
 class ProductDetail(View):
     def get(self, request):
-        # stuff
-        p = Product.objects.filter(pid=9)[0]
-        p.get_price()
+        report = None
+        try:
+            pid = request.GET['pid']
+            pid = int(pid)
+            product = Product.objects.filter(pid=pid)[0]
+            price = product.get_price()
+            stones = product.stone_set.all()
+            product.metal_type = product.metal_type.capitalize()
+            image_link = product.get_image_link()
+        except Exception as e:
+            report = str(e)
+            return render(request, 'gallery/product_detail.html', {"report": report})
 
-        return render(request, 'gallery/product_detail.html', {})
+        context = {
+            "product": product,
+            "price": price,
+            "report": report,
+            "image_link": image_link,
+            "stones": stones,
+        }
+
+        return render(request, 'gallery/product_detail.html', context)
 
 
 class ProductList(View):

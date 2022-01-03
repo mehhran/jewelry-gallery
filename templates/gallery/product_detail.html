@@ -1,3 +1,65 @@
 {% extends 'gallery/base.html' %}
 {% block title %} Product Detail {%endblock%}
-{% block content%} Product Detail {%endblock%}
+{% block content%}
+<h4>Product Detail</h4>
+<hr />
+
+{% if report %}
+<pre> {{report}} </pre>
+{% else %}
+{% load static %}
+<div class="container">
+  <div class="card">
+    <div class="row justify-content-center">
+      <div class="col-10 col-sm-9 col-md-7 col-lg-5 pt-2">
+        <img
+          class="img-fluid"
+          src="{% static image_link %}"
+          alt="product image"
+        />
+      </div>
+    </div>
+    <div class="row justify-content-center pb-2">
+      <div class="col-10">
+        <hr />
+        <h5 style="text-align: center">
+          Price: ${{price}}
+        </h5>
+      </div>
+    </div>
+  </div>
+</div>
+
+<br />
+<div class="table-responsive">
+  <table class="table table-sm">
+    <tr>
+      <th>Barcode</th>
+      <th>Name</th>
+      <th>Total Weight</th>
+      <th>Metal Type</th>
+    </tr>
+    <tr>
+      <th>{{ product.pid }}</th>
+      <th>{{ product.name }}</th>
+      <th>{{ product.weight_total }}</th>
+      <th>{{ product.metal_type }}</th>
+    </tr>
+  </table>
+</div>
+
+<br />
+<h6>Stones:</h6>
+<ol class="list-group list-group-flush">
+    {% for stone in stones %}
+    <li class="list-group-item list-group-item-action">
+        {{ stone }}
+    </li>
+    {%endfor%}
+</ol>
+
+{% endif %}
+<div class="text-center">
+  <span style="font-size: 150px"><i class="fas fa-barcode"></i></span>
+</div>
+{%endblock%}

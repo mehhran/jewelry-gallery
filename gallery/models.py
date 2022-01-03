@@ -1,4 +1,6 @@
+import os
 from django.db import models
+from django.conf import settings
 
 import decimal
 
@@ -103,6 +105,18 @@ class Product(models.Model):
             return err
                 
         return int(price)
+
+    def get_image_link(self):
+        try:
+            name_start = str("Barcode - %d " % self.pid)
+            dir = settings.BASE_DIR / 'static/gallery/product-photos'
+            prefixed = [filename for filename in os.listdir(dir) if filename.startswith(name_start)]
+            image_link = str("gallery/product-photos/%s" % prefixed[0])
+        
+        except Exception as err:
+            return err
+
+        return image_link
 
     def __str__(self):
         return self.name + " - Barcode: " + str(self.pid)

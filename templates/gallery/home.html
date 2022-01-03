@@ -2,20 +2,6 @@
 {% block title %} Home {%endblock%}
 {% block content%}
 {% load static %}
-{% if price_list != None %}
-    <h6>Latest Recorded Prices: </h6>
-    <ol class="list-group list-group-flush p-2 ">
-    {% for p in price_list %}
-        <li class="list-group-item bg-light">
-            <div class="row">
-            <div class="col" align="right">{{p.sort}} ({{p.basis}})</div>
-            <div class="col" align="center">${{p.amount}}</div>
-            <div class="col" align="left">{{p.datetime}}</div>
-            </div>
-        </li>
-    {%endfor%}
-    </ol>
-{% else %}
     <div class="text-center">
     <img
         class="img-fluid"
@@ -23,5 +9,4 @@
         alt="Responsive image"
     />
     </div>
-{% endif %}
 {%endblock%}
