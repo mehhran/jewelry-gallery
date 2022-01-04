@@ -108,13 +108,13 @@ class Product(models.Model):
 
     def get_image_link(self):
         try:
-            name_start = str("Barcode - %d " % self.pid)
+            name_start = str("Barcode-%d " % self.pid)
             dir = settings.BASE_DIR / 'static/gallery/product-photos'
             prefixed = [filename for filename in os.listdir(dir) if filename.startswith(name_start)]
             image_link = str("gallery/product-photos/%s" % prefixed[0])
         
         except Exception as err:
-            return err
+            return "gallery/nopic.jpg"
 
         return image_link
 

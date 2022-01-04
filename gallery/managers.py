@@ -25,4 +25,17 @@ class ProfitGainManager(models.Manager):
 
 
 class ProductManager(models.Manager):
-    pass
+    
+    def product_price_dic(self):
+        """
+            Returns a dictionary of product:price pairs.
+        """
+        all_products = self.model.objects.all()
+        return {p.id : p.get_price() for p in all_products}
+    
+    def product_image_link_dic(self):
+        """
+            Returns a dictionary of product:image_link pairs.
+        """
+        all_products = self.model.objects.all()
+        return {p.id : p.get_image_link() for p in all_products}

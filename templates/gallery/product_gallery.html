@@ -1,3 +1,46 @@
 {% extends 'gallery/base.html' %}
 {% block title %} Product Gallery {%endblock%}
-{% block content%} Product Gallery {%endblock%}
+{% block content%}
+<h4>Product Gallery</h4>
+<div class="card-columns pt-2 mb-4">
+    {% for p in products %}
+        <div class="card text-center">
+            <div class="row">
+                <div class="col">
+                <a href="{% url 'detail_link' pid=p.pid%}">
+                    <img class="img-fluid" src="/static/{{ image_links|get_item:p.id }}" alt="product image">
+                </a>
+                </div>
+            </div>
+            <div class="row pt-2">
+                <div class="col card-text">
+                    <strong>
+                        ${{ products_prices|get_item:p.id }}
+                    </strong>
+                <p>
+                    <a class="text-dark" href="{% url 'detail_link' pid=p.pid%}">
+                    Barcode {{p.pid}}
+                    </a>
+                </p>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>  
+<nav class="mb-2" id="pagination">
+    <span class="step-links" style="font-size: 20px;">
+        {% if products.has_previous %}
+            <a class="text-dark" href="?page=1"><i class="fas fa-angle-double-left"></i></a>
+            <a class="text-dark" href="?page={{ products.previous_page_number }}"><i class="fas fa-angle-left"></i></a>
+        {% endif %}
+        <span class="text-dark">
+            Page {{ products.number }} of {{ products.paginator.num_pages }}
+        </span>
+        {% if products.has_next %}
+            <a class="text-dark" href="?page={{ products.next_page_number }}"><i class="fas fa-angle-right"></i></a>
+            <a class="text-dark" href="?page={{ products.paginator.num_pages }}"><i class="fas fa-angle-double-right"></i></a>
+        {% endif %}
+    </span>
+</nav>
+
+{%endblock%}

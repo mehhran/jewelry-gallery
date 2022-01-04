@@ -1,7 +1,7 @@
 from django.shortcuts import render
 
 from django.views import View
-
+from django.core.paginator import Paginator
 from gallery.models import Price, Product
 
 class Home(View):
@@ -29,10 +29,15 @@ class AddProduct(View):
 
 
 class ProductDetail(View):
-    def get(self, request):
+    def get(self, request, **kwargs):
         report = None
         try:
-            pid = request.GET['pid']
+            if 'pid' in kwargs:
+                # in case of using paths
+                pid = kwargs['pid']
+            else:
+                # in case of using regular expressions
+                pid = request.GET['pid']
             pid = int(pid)
             product = Product.objects.filter(pid=pid)[0]
             price = product.get_price()
@@ -56,11 +61,38 @@ class ProductDetail(View):
 
 class ProductList(View):
     def get(self, request):
-        # stuff
-        return render(request, 'gallery/product_list.html', {})
+        report = None
+        try:
+            products = Product.objects.all()
+            products_prices = Product.objects.product_price_dic()
+        except Exception as e:
+            return render(request, 'gallery/product_list.html', {"report": report})
+
+        context = {
+            "products": products,
+            "products_prices": products_prices,
+            "report": report,
+        }
+        return render(request, 'gallery/product_list.html', context)
 
 
 class ProductGallery(View):
     def get(self, request):
-        # stuff
-        return render(request, 'gallery/product_gallery.html', {})
+        report = None
+        try:
+            products = Product.objects.all()
+            products_prices = Product.objects.product_price_dic()
+            image_links = Product.objects.product_image_link_dic()
+        except Exception as e:
+            return render(request, 'gallery/product_list.html', {"report": report})
+        
+        products_paginator = Paginator(products, 12)
+        page_number = request.GET.get('page')
+        products = products_paginator.get_page(page_number)
+        
+        context = {
+        "products": products,
+        "products_prices": products_prices,
+        "image_links": image_links,
+        }
+        return render(request, 'gallery/product_gallery.html', context)

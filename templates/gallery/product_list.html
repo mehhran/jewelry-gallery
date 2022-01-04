@@ -1,3 +1,19 @@
 {% extends 'gallery/base.html' %}
 {% block title %} Product List {%endblock%}
-{% block content%} Product List {%endblock%}
+{%block content%}
+{% load static %}
+<h4 class="mb-3">Product List</h4>
+{% if report %}
+    <pre>{{ report }}</pre>
+{% else %}
+    <ol class="list-group list-group-flush">
+{% for p in products%}
+    <li class="list-group-item list-group-item-action">
+        <a href="{% url 'detail_link' pid=p.pid%}">
+            {{p}}
+        </a> <strong>- ${{ products_prices|get_item:p.id }}</strong>
+    </li>
+{%endfor%}
+    </ol>
+{% endif %}
+{% endblock %}
