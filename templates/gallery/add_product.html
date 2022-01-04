@@ -1,3 +1,9 @@
 {% extends 'gallery/base.html' %}
 {% block title %} Add Product {%endblock%}
-{% block content%} Add Product {%endblock%}
+{% block content%}
+<h6> #TODO (Use the <a href="{% url 'admin:index' %}">admin page</a> for now)</h6>
+    <input class="form-control" type="text" placeholder="Product name input" readonly>
+    <input class="form-control" type="text" placeholder="Information input" readonly>
+    <input class="form-control" type="text" placeholder="Details input" readonly>
+<hr />
+{%endblock%}
