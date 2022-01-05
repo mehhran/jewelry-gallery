@@ -13,7 +13,6 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 import os
 from pathlib import Path
 
-from webproject.secrets import DJANGO_SECRET_KEY
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -23,12 +22,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = DJANGO_SECRET_KEY
+with open('/home/ec2-user/conf/jewelry-gallery/django_secret_key.txt') as f:
+    SECRET_KEY = f.read().strip()
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['bambao.cloud']
 
 
 # Application definition
@@ -79,8 +79,10 @@ WSGI_APPLICATION = 'webproject.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'OPTIONS': {
+            'read_default_file': '/home/ec2-user/conf/jewelry-gallery/django_mysql.cnf',
+        },
     }
 }
 
@@ -121,12 +123,12 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-#if not DEBUG: 
-#    STATIC_ROOT = '/home/django/www-data/site.com/static/'
+ 
+STATIC_ROOT = '/home/ec2-user/jewelry-gallery/static/'
 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static/'),
-]
+#STATICFILES_DIRS = [
+#    os.path.join(BASE_DIR, 'static/'),
+#]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
