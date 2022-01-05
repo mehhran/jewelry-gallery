@@ -28,7 +28,7 @@ with open('/home/ec2-user/conf/jewelry-gallery/django_secret_key.txt') as f:
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['bambao.cloud']
+ALLOWED_HOSTS = ['jewelry-gallery.bambao.cloud']
 
 
 # Application definition
