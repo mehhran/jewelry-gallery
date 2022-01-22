@@ -67,7 +67,8 @@ class Product(models.Model):
 
             # converting the price to be 'per gram' (if it isn't already)
             if base_metal_latest.basis == 'oz':
-                base_metal_price /= decimal.Decimal(28.3495)
+                # one troy ounce is equal to 31.1034768 grams
+                base_metal_price /= decimal.Decimal(31.1034768)
             elif base_metal_latest.basis == 'kg':
                 base_metal_price /= 1000
             else:
@@ -157,7 +158,7 @@ class Price(models.Model):
     ]
     BASIS_CHOICES = [
         ('g', 'One Gram'),
-        ('oz', 'One Ounce'),
+        ('oz', 'One Troy Ounce'),
         ('kg', 'One Kilogram')
     ]
 
