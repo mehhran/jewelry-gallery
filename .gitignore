@@ -134,3 +134,7 @@ secrets.py
 .vscode
 
 product-photos
+
+static/admin
+
+admin2
