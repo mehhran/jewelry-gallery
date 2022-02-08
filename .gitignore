@@ -136,3 +136,5 @@ secrets.py
 product-photos
 
 static/admin
+
+dev_settings.py
