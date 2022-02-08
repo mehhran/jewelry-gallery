@@ -45,7 +45,7 @@ class Product(models.Model):
     
     group = models.CharField(max_length=100, default="Other")
 
-    data = models.JSONField(verbose_name="Extra Data", default=my_default)
+    data = models.JSONField(verbose_name="Extra Data", default=my_default, null=True)
 
     objects = ProductManager()
 
@@ -141,7 +141,7 @@ class Stone(models.Model):
     cut = models.CharField(max_length=100, blank=True)
     clarity = models.CharField(max_length=100, blank=True)
 
-    data = models.JSONField(verbose_name="Extra Data", default=my_default)
+    data = models.JSONField(verbose_name="Extra Data", default=my_default, null=True)
 
     def __str__(self):
         return self.name + str(" (Count: %d)" % self.count)
@@ -170,7 +170,7 @@ class Price(models.Model):
     
     basis = models.CharField(max_length=10, choices=BASIS_CHOICES)
 
-    data = models.JSONField(verbose_name="Extra Data", default=my_default)
+    data = models.JSONField(verbose_name="Extra Data", default=my_default, null=True)
 
     objects = PriceManager()
 
