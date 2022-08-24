@@ -1,36 +1,98 @@
 {% extends 'gallery/base.html' %}
 {% block title %} Price Entry {%endblock%}
 {% block content%}
-<h6> #TODO 
-    ( Use the <a href="{% url 'admin:index' %}">admin page</a> for now
-    <small><small>user: viewer, pass: 6789togo</small></small>
-    )</h6>
 
-    <input class="form-control" type="text" placeholder="Gold input" readonly>
-    <input class="form-control" type="text" placeholder="Platinum input" readonly>
-    <input class="form-control" type="text" placeholder="Silver input" readonly>
+<h4>Enter new prices</h4>
+<h8 id="notvalid" class="mb-1" style="display: none;"></h8>
+<form
+name="prices_form"
+action="{% url 'price_entry' %}"
+method="post"
+id="entry_form">
+{% csrf_token %}
+
+  <div class="col-auto">
+    <div class="input-group pb-1">
+      <label class="sr-only" for="gold_price">Gold Price</label>
+      <div class="input-group-prepend">
+        <div class="input-group-text">$</div>
+      </div>
+      <input
+        class="form-control"
+        type="number"
+        step="0.01"
+        min="0.01"
+        name="gold_price"
+        id="gold_price"
+        placeholder="Gold Price"/>
+    </div>
+    <div class="input-group pb-1">
+      <label class="sr-only" for="platinum_price">Platinum Price</label>
+      <div class="input-group-prepend">
+        <div class="input-group-text">$</div>
+      </div>
+      <input
+        class="form-control"
+        type="number"
+        step="0.01"
+        min="0.01"
+        name="platinum_price"
+        id="platinum_price"
+        placeholder="Platinum Price"/>
+    </div>
+    <div class="input-group pb-1">
+      <label class="sr-only" for="silver_price">Silver Price</label>
+      <div class="input-group-prepend">
+        <div class="input-group-text">$</div>
+      </div>
+      <input
+        class="form-control"
+        type="number"
+        step="0.01"
+        min="0.01"
+        name="silver_price"
+        id="silver_price"
+        placeholder="Silver Price"/>
+    </div>
+    <div class="input-group pb-1"> 
+      <button type="submit"
+              class="btn btn-lg btn-light btn-block mt-2">
+              Submit
+      </button>
+    </div>
+  </div>
+</form>
+
+{% if report %}
+<hr>
+  {% for r in report %}
+    {{ r }}
+    </br>
+  {% endfor %}
+{% endif %}
+
 <hr />
 {% if price_list != None %}
-    <h6>Latest Recorded Prices: </h6>
-    <ol class="list-group list-group-flush p-2 ">
-    {% for p in price_list %}
-        <li class="list-group-item bg-light">
-            <div class="row">
-            <div class="col" align="right">{{p.sort}} ({{p.basis}})</div>
-            <div class="col" align="center">${{p.amount}}</div>
-            <div class="col" align="left">{{p.datetime}}</div>
-            </div>
-        </li>
-    {%endfor%}
-    </ol>
+  <h6>Latest Recorded Prices: </h6>
+  <ol class="list-group list-group-flush p-2 ">
+  {% for p in price_list %}
+      <li class="list-group-item bg-light">
+          <div class="row">
+          <div class="col" align="right">{{p.sort}} ({{p.basis}})</div>
+          <div class="col" align="center">${{p.amount}}</div>
+          <div class="col" align="left">{{p.datetime}}</div>
+          </div>
+      </li>
+  {%endfor%}
+  </ol>
 {% else %}
 {% load static %}
-    <div class="text-center">
-    <img
-        class="img-fluid"
-        src="{% static 'gallery/Nothing.jpg' %}"
-        alt="Responsive image"
-    />
-    </div>
+  <div class="text-center">
+  <img
+      class="img-fluid"
+      src="{% static 'gallery/Nothing.jpg' %}"
+      alt="Responsive image"
+  />
+  </div>
 {% endif %}
 {%endblock%}

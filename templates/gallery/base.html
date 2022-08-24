@@ -112,5 +112,31 @@
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"
         ></script>
+        <script>
+            function validateForm() {
+                // input fields
+                gold_val = $("#gold_price").val();
+                platinum_val = $("#platinum_price").val();
+                silver_val = $("#silver_price").val();
+        
+                if (gold_val == '' && platinum_val == '' && silver_val == '') {
+                  q = $("#notvalid");
+                  q.prop('style', "display: block; color:DarkRed;");
+                  q.html("(Enter at least one price)");
+                  return false;
+                }
+                else {
+                    return true;
+                }
+            }
+            // action
+            $( document ).ready(function() {
+              $('form[name="prices_form"]').submit(function( event ) {
+                if ( validateForm() ) {return;}
+                
+                event.preventDefault();
+              });
+            });            
+        </script>
     </body>
 </html>
