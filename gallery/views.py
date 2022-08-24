@@ -6,8 +6,14 @@ from gallery.models import Price, Product
 
 class Home(View):
     def get(self, request):
-        # stuff        
-        return render(request, 'gallery/home.html', {})
+        try:
+            price_list = [Price.objects.get_latest(sort) for sort in ['gold', 'platinum', 'silver']]
+            for p in price_list:
+                p.sort = p.sort.capitalize()
+            context = {"price_list": price_list}
+        except:
+            context = {"price_list": None}
+        return render(request, 'gallery/home.html', context)
 
 
 class PriceEntry(View):
@@ -20,7 +26,49 @@ class PriceEntry(View):
         except:
             context = {"price_list": None}
         return render(request, 'gallery/price_entry.html', context)
+    
+    def post(self, request):
+        report = []
+        if request.POST["gold_price"] != "":
+            try:
+                p = Price(amount = request.POST["gold_price"],
+                          sort = 'gold')
+                p.save()
+                report.append(str("%s (recorded)" % p))
+            except Exception as e:
+                report.append("Gold price was not recorded due to an error: " + str(e))
+        
+        if request.POST["platinum_price"] != "":
+            try:
+                p = Price(amount = request.POST["platinum_price"],
+                          sort = 'platinum')
+                p.save()
+                report.append(str("%s (recorded)" % p))
+            except Exception as e:
+                report.append("Platinum price was not recorded due to an error: " + str(e))
+        
+        if request.POST["silver_price"] != "":
+            try:
+                p = Price(amount = request.POST["silver_price"],
+                          sort = 'silver')
+                p.save()
+                report.append(str("%s (recorded)" % p))
+            except Exception as e:
+                report.append("Silver price was not recorded due to an error: " + str(e))
 
+        try:
+            price_list = [Price.objects.get_latest(sort) for sort in ['gold', 'platinum', 'silver']]
+            for p in price_list:
+                p.sort = p.sort.capitalize()
+        except:
+            price_list = None
+        
+        context = {
+            "price_list": price_list,
+            "report": report
+        }
+
+        return render(request, 'gallery/price_entry.html', context)
 
 class AddProduct(View):
     def get(self, request):

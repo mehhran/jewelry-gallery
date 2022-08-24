@@ -164,11 +164,11 @@ class Price(models.Model):
 
     sort = models.CharField(max_length=10, choices=SORT_CHOICES)
 
-    datetime = models.DateTimeField()
+    datetime = models.DateTimeField(auto_now_add=True)
     amount = models.DecimalField(max_digits=19, decimal_places=2,
                                 help_text="Enter the amount in USD")
     
-    basis = models.CharField(max_length=10, choices=BASIS_CHOICES)
+    basis = models.CharField(max_length=10, choices=BASIS_CHOICES, default="oz")
 
     data = models.JSONField(verbose_name="Extra Data", default=my_default, null=True)
 
